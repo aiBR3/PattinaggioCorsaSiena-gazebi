@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Mappa gazebi</title>
+
+    <!-- Leaflet locale 2.0.0.alpha.1 -->
+    <link rel="stylesheet" href="leaflet-2.0.0-alpha.1/dist/leaflet.css"/>
+    <script src="leaflet-2.0.0-alpha.1/dist/leaflet.js"></script>
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		#mappa-leaflet {
+			background-color: red;
+			width: 6 rem;
+			height: 6 rem;
+		}
+	</style>
+</head>
+
+<body>
+
+<p>Un paragrafo.</p>
+
+<div id="mappa-leaflet"></div><!-- la mappa appare qui -->
+
+<p>Un altro paragrafo.</p>
+
+<script>
+	
+	// la finestra della mappa
+	const map = new Map('mappa-leaflet', {
+		center: [43.33450584371374, 11.2952718783408],
+		zoom: 9,
+		zoomSnap: 0.5
+	});
+	
+	// provider di mappe
+	const osm = new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" referrerpolicy="no-referrer" rel="noreferrer" target="_blank" title="OpenStreetMap">OpenStreetMap</a>'
+	}).addTo(map);
+	const esri_wi = new TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="https://www.esri.com/" referrerpolicy="no-referrer" rel="noreferrer" target="_blank" title="Esri">Esri</a>'
+	});
+	
+	// selettore di gruppi
+	const mappe = {
+		'Standard (OpenStreetMap)': osm,
+		'Satellite (Esri world imagery)': esri_wi
+	};
+	
+	const layerControl = new Control.Layers(mappe).addTo(map);
+	
+</script>
+
+</body>
+</html>
