@@ -19,16 +19,16 @@
 	<link rel="stylesheet" href="./leaflet-2.0.0-alpha.1/dist/leaflet.css"/>
 	<script type="importmap">
 	{
-	  "imports": {
-		"leaflet": "./leaflet-2.0.0-alpha.1/dist/leaflet.js"
-	  }
+		"imports": {
+			"leaflet": "./leaflet-2.0.0-alpha.1/dist/leaflet.js"
+		}
 	}
 	</script>
 	
 	<style>
 		#mappa-leaflet {
 			width: 90vw;
-			height: 75vh;
+			height: 70vh;
 			margin: auto;
 		}
 	</style>
@@ -44,24 +44,34 @@
 
 <script type="module">
 	
-	import { Map, TileLayer, Control } from 'leaflet';
+	import { Map, Control, Polygon, TileLayer } from 'leaflet';
 	
 	// mappa
 	const mappa = new Map('mappa-leaflet', {
 		center: [43.33450584371374, 11.2952718783408],
-		zoom: 18,
-		zoomSnap: 0.2
+		zoom: 19,
+		zoomSnap: 0.1
 	});
 	
 	// provider di mappe
 		const esri_wi = new TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-		maxZoom: 19,
+		maxZoom: 19.9,
 		attribution: '&copy; <a href="https://www.esri.com/" referrerpolicy="no-referrer" rel="noreferrer" target="_blank" title="Esri">Esri</a>'
 	}).addTo(mappa);
 	const osm = new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		maxZoom: 19,
+		maxZoom: 19.9,
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" referrerpolicy="no-referrer" rel="noreferrer" target="_blank" title="OpenStreetMap">OpenStreetMap</a>'
 	});
+	
+	// gazebi
+	const gazebo1 = new Polygon(
+		[	[43.33431,11.29508],
+			[43.33435,11.29509],
+			[43.33435,11.29504],
+			[43.33432,11.29503]
+		],
+		{color: 'red'}
+	).bindPopup('<button type="button">Prenota</button>').addTo(mappa);
 	
 	// selettore
 	const livelliMappe = {
