@@ -1,29 +1,35 @@
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Mappa gazebi</title>
 	
-    <!-- Leaflet CDN 2.0.0.alpha.1 -->
-	<link rel="stylesheet" href="https://unpkg.com/leaflet-2.0.0-alpha.1/dist/leaflet.css"/>
-	<script src="https://unpkg.com/leaflet-2.0.0-alpha.1/dist/leaflet.js"></script>
+	<!-- Leaflet CDN 2.0.0.alpha.1
+	<link rel="stylesheet" href="https://app.unpkg.com/leaflet@2.0.0-alpha.1/files/dist/leaflet.css"/>
+	<script type="importmap">
+		{
+			"imports": {
+				"leaflet": "https://unpkg.com/leaflet@2.0.0-alpha.1/dist/leaflet.js"
+			}
+		}
+	</script> -->
 	
-    <!-- Leaflet locale 2.0.0.alpha.1
-    <link rel="stylesheet" href="leaflet-2.0.0-alpha.1/dist/leaflet.css"/>
-    <script src="leaflet-2.0.0-alpha.1/dist/leaflet.js"></script>
-    -->
+	<!-- Leaflet LOCALE 2.0.0.alpha.1 -->
+	<link rel="stylesheet" href="./leaflet-2.0.0-alpha.1/dist/leaflet.css"/>
+	<script type="importmap">
+	{
+	  "imports": {
+		"leaflet": "./leaflet-2.0.0-alpha.1/dist/leaflet.js"
+	  }
+	}
+	</script>
 	
 	<style>
-		html, body {
-			height: 100%;
-			margin: 0;
-		}
 		#mappa-leaflet {
-			background-color: red;
-			width: 6 rem;
-			height: 6 rem;
+			width: 90vw;
+			height: 75vh;
+			margin: auto;
 		}
 	</style>
 </head>
@@ -36,29 +42,31 @@
 
 <p>Un altro paragrafo.</p>
 
-<script>
+<script type="module">
+	
+	import { Map, TileLayer, Control } from 'leaflet';
 	
 	// mappa
 	const mappa = new Map('mappa-leaflet', {
 		center: [43.33450584371374, 11.2952718783408],
-		zoom: 9,
-		zoomSnap: 0.5
+		zoom: 18,
+		zoomSnap: 0.2
 	});
 	
 	// provider di mappe
-	const osm = new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		maxZoom: 19,
-		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" referrerpolicy="no-referrer" rel="noreferrer" target="_blank" title="OpenStreetMap">OpenStreetMap</a>'
-	}).addTo(mappa);
-	const esri_wi = new TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+		const esri_wi = new TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 		maxZoom: 19,
 		attribution: '&copy; <a href="https://www.esri.com/" referrerpolicy="no-referrer" rel="noreferrer" target="_blank" title="Esri">Esri</a>'
 	}).addTo(mappa);
+	const osm = new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" referrerpolicy="no-referrer" rel="noreferrer" target="_blank" title="OpenStreetMap">OpenStreetMap</a>'
+	});
 	
 	// selettore
 	const livelliMappe = {
-		'Standard (OpenStreetMap)': osm,
-		'Satellite (Esri world imagery)': esri_wi
+		'Satellite (Esri world imagery)': esri_wi,
+		'Standard (OpenStreetMap)': osm
 	};
 	const selettoreLivelli = new Control.Layers(livelliMappe).addTo(mappa);
 	
